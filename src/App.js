@@ -11,18 +11,20 @@ function App() {
       id: shortid.generate(),
       name: "Satis",
       type: "Gato",
-      breed: "raza",
+      breed: "Cruce",
       birthday: "2020",
-      ownerName: "and",
+      ownerName: "Andres",
       telephone: "302",
-      direction: "calle 17",
-      email : "andres" 
+      direction: "Calle 17",
+      email : "andres@gmail.com" 
     }
   ]
 
   const [pets, setPets] = useState(pet)
   const [modalEdit, setModalEdit] = useState(false)
   const [modalDelete, setModalDelete] = useState(false)
+  const [modalAdd, setModalAdd] = useState(false)
+
 
   //Used for save the pet selected after we can delete or edit with this data
   const [ selectedPet, setSelectedPet] = useState({
@@ -77,11 +79,26 @@ function App() {
     setModalDelete(false)
   }
 
+  const openModalAdd = () => {
+    setSelectedPet(null)
+    setModalAdd(true)
+  }
+
+  const addPet = () =>{
+    let insertValue = selectedPet
+    insertValue.id = shortid.generate()
+    let newPets = pets
+    newPets.push(insertValue)
+    setPets(newPets)
+    setModalAdd(false)
+
+  }
+
   return (
     <div className="container mt-5">
       <h1 align="center">MUNDO VETERINARIO</h1>
       <hr/>
-      <button className="btn btn-primary">Agregar mascota</button>
+      <button className="btn btn-primary" onClick={() => openModalAdd() }>Agregar mascota</button>
 
         <table className="table table-striped table-bordered">
           <thead>
@@ -117,10 +134,57 @@ function App() {
           </tbody>
         </table>
         
-      <Modal isOpen={modalEdit}>
+        <Modal isOpen={modalAdd}>
         <ModalHeader>
           <div>
             <h3>Agregar mascota</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div className="form-group">
+
+            <label>Nombre mascota</label>
+            <input className="form-control" type="text" name="name" value={selectedPet ? selectedPet.name: ""} onChange={handleChange}/>
+            <br/>
+            <label>Tipo mascota</label>
+            <input className="form-control" type="text" name="type" value={selectedPet ? selectedPet.type: ""} onChange={handleChange}/>
+            <br/>
+            <label>Raza mascota</label>
+            <input className="form-control" type="text" name="breed" value={selectedPet ? selectedPet.breed: ""} onChange={handleChange}/>
+            <br/>
+            <label>Fecha de nacimiento:</label>
+            <input className="form-control" type="text" name="birthday" value={selectedPet ? selectedPet.birthday: ""} onChange={handleChange}/>
+            <br/>
+            <label>Nombre propietario</label>
+            <input className="form-control" type="text" name="ownerName" value={selectedPet ? selectedPet.ownerName: ""} onChange={handleChange}/>
+            <br/>
+            <label>Telefono</label>
+            <input className="form-control" type="text" name="telephone" value={selectedPet ? selectedPet.telephone: ""} onChange={handleChange}/>
+            <br/>
+            <label>Direccion</label>
+            <input className="form-control" type="text" name="direction" value={selectedPet ? selectedPet.direction: ""} onChange={handleChange}/>
+            <br/>
+            <label>Email</label>
+            <input className="form-control" type="email" name="email" value={selectedPet ? selectedPet.email: ""} onChange={handleChange}/>
+            <br/>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-success" onClick={()=>addPet()}>
+           Insertar
+          </button>
+          <button className="btn btn-danger"
+                  onClick={() => setModalAdd(false)}        
+          >
+            Cerrar
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalEdit}>
+        <ModalHeader>
+          <div>
+            <h3>Editar mascota</h3>
           </div>
         </ModalHeader>
         <ModalBody>
