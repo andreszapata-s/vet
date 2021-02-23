@@ -40,7 +40,7 @@ function App() {
   //Used for select the pet and send to selectedPet
   const selectPet = (pet, edit) =>{
     setSelectedPet(pet)
-    edit==="yes" ? setModalEdit(true) : setModalDelete(true)
+    edit==="edit" ? setModalEdit(true) : setModalDelete(true)
   }
 
   //Se necesita una funcion que capture lo que este escribiendo el usuario
@@ -54,7 +54,7 @@ function App() {
     }))
   }
 
-  const edit = () =>{
+  const editPet = () =>{
     var newPets = pets
     newPets.map( (pet) => {
       if(pet.id === selectedPet.id){
@@ -70,6 +70,11 @@ function App() {
     })
     setPets(newPets)
     setModalEdit(false)
+  }
+
+  const deletePet= () =>{
+    setPets(pets.filter(pet => pet.id!==selectedPet.id))
+    setModalDelete(false)
   }
 
   return (
@@ -103,8 +108,8 @@ function App() {
                     <td>{pet.telephone}</td>
                     <td>{pet.direction}</td>
                     <td>{pet.email}</td>
-                    <td> <button className="btn btn-warning" onClick={()=>selectPet(pet,"yes")}>Editar</button>
-                         <button className="btn btn-danger" onClick={()=>selectPet(pet,"no")}>Eliminar</button> </td>
+                    <td> <button className="btn btn-warning" onClick={()=>selectPet(pet,"edit")}>Editar</button>
+                         <button className="btn btn-danger" onClick={()=>selectPet(pet,"delete")}>Eliminar</button> </td>
                   </tr>
                   )
               )
@@ -148,7 +153,7 @@ function App() {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success" onClick={()=>edit()}>
+          <button className="btn btn-success" onClick={()=>editPet()}>
             Actualizar
           </button>
           <button className="btn btn-danger"
@@ -159,49 +164,24 @@ function App() {
         </ModalFooter>
       </Modal>
 
-       <Modal isOpen={modalEdit}>
-        <ModalHeader>
-          <div>
-            <h3>Agregar mascota</h3>
-          </div>
-        </ModalHeader>
+      <Modal isOpen={modalDelete}>
         <ModalBody>
-          <div className="form-group">
-
-            <label>Nombre mascota</label>
-            <input className="form-control" type="text" name="name" value={selectedPet && selectedPet.name} onChange={handleChange}/>
-            <br/>
-            <label>Tipo mascota</label>
-            <input className="form-control" type="text" name="type" value={selectedPet && selectedPet.type} onChange={handleChange}/>
-            <br/>
-            <label>Raza mascota</label>
-            <input className="form-control" type="text" name="breed" value={selectedPet && selectedPet.breed} onChange={handleChange}/>
-            <br/>
-            <label>Fecha de nacimiento:</label>
-            <input className="form-control" type="text" name="birthday" value={selectedPet && selectedPet.birthday} onChange={handleChange}/>
-            <br/>
-            <label>Nombre propietario</label>
-            <input className="form-control" type="text" name="ownerName" value={selectedPet && selectedPet.ownerName} onChange={handleChange}/>
-            <br/>
-            <label>Telefono</label>
-            <input className="form-control" type="text" name="telephone" value={selectedPet && selectedPet.telephone} onChange={handleChange}/>
-            <br/>
-            <label>Direccion</label>
-            <input className="form-control" type="text" name="direction" value={selectedPet && selectedPet.direction} onChange={handleChange}/>
-            <br/>
-            <label>Email</label>
-            <input className="form-control" type="email" name="email" value={selectedPet && selectedPet.email} onChange={handleChange}/>
-            <br/>
+          <div>
+            <h3>Esta seguro que desea eliminar la mascota? {selectedPet && selectedPet.name}</h3>
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success" onClick={()=>edit()}>
-            Actualizar
-          </button>
-          <button className="btn btn-danger"
-                  onClick={() => setModalEdit(false)}        
+          <button 
+          className="btn btn-danger"
+          onClick={()=>deletePet()}
           >
-            Cerrar
+            SI
+          </button>
+          <button 
+          className="btn btn-secondary"
+          onClick={()=>setModalDelete(false)}
+          >
+            NO
           </button>
         </ModalFooter>
       </Modal>
