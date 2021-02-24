@@ -4,7 +4,7 @@ import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function App() {
-
+//hasta este punto bien
   const pet = [
     {
       id: shortid.generate(),
