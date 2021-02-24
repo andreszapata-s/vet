@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { getCollection } from './actions';
 
 function App() {
 //hasta este punto bien
@@ -24,6 +25,12 @@ function App() {
   const [modalDelete, setModalDelete] = useState(false)
   const [modalAdd, setModalAdd] = useState(false)
 
+  useEffect( () =>{
+    (async () =>{
+      const result = await getCollection("pets")
+      console.log(result)
+    })()
+  },[])
 
   //Used for save the pet selected after we can delete or edit with this data
   const [ selectedPet, setSelectedPet] = useState({
