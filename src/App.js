@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { getCollection } from './actions';
+import { addDocument, getCollection } from './actions';
 
 function App() {
 //hasta este punto bien
@@ -24,11 +24,14 @@ function App() {
   const [modalEdit, setModalEdit] = useState(false)
   const [modalDelete, setModalDelete] = useState(false)
   const [modalAdd, setModalAdd] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect( () =>{
     (async () =>{
       const result = await getCollection("pets")
-      console.log(result)
+      if(result.statusResponse){
+        setPets(result.data)
+      }
     })()
   },[])
 
@@ -92,8 +95,15 @@ function App() {
 
   const addPet = () =>{
     let insertValue = selectedPet
-    insertValue.id = shortid.generate()
+    //insertValue.id = shortid.generate()
     let newPets = pets
+    
+
+    const result = addDocument("pets",selectedPet)
+    if(!result.statusResponse){
+      setError(result.error)
+      return
+    }
     newPets.push(insertValue)
     setPets(newPets)
     setModalAdd(false)
