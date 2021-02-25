@@ -9,7 +9,7 @@ function App() {
 //hasta este punto bien
   const pet = [
     {
-      id: shortid.generate(),
+      id: "",
       name: "",
       type: "",
       breed: "",
@@ -110,31 +110,29 @@ function App() {
 
   const addPet = async() =>{
 
+    if(!selectedPet){
+      alert("Favor llenar el formulario")
+    }
     let insertValue = selectedPet
-    //insertValue.id = shortid.generate()
-    //let newPets = pets
-    
 
     const result = await addDocument("pets",selectedPet)
     if(!result.statusResponse){
       setError(result.error)
       return
     }
-    //newPets.push({id:result.data.id, insertValue})
-    
     setPets([...pets,{id:result.data.id, insertValue}])
-    console.log(pets)
     setModalAdd(false)
-
   }
 
   return (
     <div className="container mt-5">
       <h1 align="center">MUNDO VETERINARIO</h1>
       <hr/>
-      <button className="btn btn-primary btn-block" onClick={() => openModalAdd() } >Agregar mascota</button>
+      <h3>MASCOTAS 
+        <button className="btn bg-success float-right" onClick={() => openModalAdd() } >Agregar mascota</button> 
+      </h3>
         <br/>
-        <table className="table table-striped table-bordered table-hover">
+        <table className="table table-sm table-striped table-bordered table-hover">
           <thead className="thead thead-dark">
             <tr>
               <th>NOMBRE MASCOTA</th>
@@ -160,8 +158,8 @@ function App() {
                     <td>{pet.telephone}</td>
                     <td>{pet.direction}</td>
                     <td>{pet.email}</td>
-                    <td> <button className="btn btn-warning btn-block" onClick={()=>selectPet(pet,"edit")}>Editar</button>
-                         <button className="btn btn-danger btn-block" onClick={()=>selectPet(pet,"delete")}>Eliminar</button> </td>
+                    <td> <button className="btn bg-warning btn-block" onClick={()=>selectPet(pet,"edit")}>Editar</button>
+                         <button className="btn bg-danger btn-block" onClick={()=>selectPet(pet,"delete")}>Eliminar</button> </td>
                   </tr>
                   )
               )
@@ -188,10 +186,10 @@ function App() {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success btn-block" onClick={()=>addPet()}>
+          <button className="btn bg-success btn-block" onClick={()=>addPet()}>
            Insertar
           </button>
-          <button className="btn btn-danger btn-block"
+          <button className="btn bg-danger btn-block"
                   onClick={() => setModalAdd(false)}        
           >
             Cerrar
@@ -218,10 +216,10 @@ function App() {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success btn-block" onClick={()=>editPet()}>
+          <button className="btn bg-success btn-block" onClick={()=>editPet()}>
             Actualizar
           </button>
-          <button className="btn btn-danger btn-block"
+          <button className="btn bg-danger btn-block"
                   onClick={() => setModalEdit(false)}        
           >
             Cerrar
