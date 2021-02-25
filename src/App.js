@@ -3,20 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { addDocument, getCollection, updateDocument, deleteDocument } from './actions';
+import './Modal.css'
 
 function App() {
 //hasta este punto bien
   const pet = [
     {
       id: shortid.generate(),
-      name: "Satis",
-      type: "Gato",
-      breed: "Cruce",
-      birthday: "2020",
-      ownerName: "Andres",
-      telephone: "302",
-      direction: "Calle 17",
-      email : "andres@gmail.com" 
+      name: "",
+      type: "",
+      breed: "",
+      birthday: "",
+      ownerName: "",
+      telephone: "",
+      direction: "",
+      email : "" 
     }
   ]
 
@@ -131,10 +132,10 @@ function App() {
     <div className="container mt-5">
       <h1 align="center">MUNDO VETERINARIO</h1>
       <hr/>
-      <button className="btn btn-primary" onClick={() => openModalAdd() }>Agregar mascota</button>
-
-        <table className="table table-striped table-bordered">
-          <thead>
+      <button className="btn btn-primary btn-block" onClick={() => openModalAdd() } >Agregar mascota</button>
+        <br/>
+        <table className="table table-striped table-bordered table-hover">
+          <thead className="thead thead-dark">
             <tr>
               <th>NOMBRE MASCOTA</th>
               <th>TIPO DE MASCOTA</th>
@@ -144,6 +145,7 @@ function App() {
               <th>TELEFONO</th>
               <th>DIRECCION</th>
               <th>EMAIL</th>
+              <th>ACCION</th>
             </tr>
           </thead>
           <tbody>
@@ -158,8 +160,8 @@ function App() {
                     <td>{pet.telephone}</td>
                     <td>{pet.direction}</td>
                     <td>{pet.email}</td>
-                    <td> <button className="btn btn-warning" onClick={()=>selectPet(pet,"edit")}>Editar</button>
-                         <button className="btn btn-danger" onClick={()=>selectPet(pet,"delete")}>Eliminar</button> </td>
+                    <td> <button className="btn btn-warning btn-block" onClick={()=>selectPet(pet,"edit")}>Editar</button>
+                         <button className="btn btn-danger btn-block" onClick={()=>selectPet(pet,"delete")}>Eliminar</button> </td>
                   </tr>
                   )
               )
@@ -175,38 +177,21 @@ function App() {
         </ModalHeader>
         <ModalBody>
           <div className="form-group">
-
-            <label>Nombre mascota</label>
-            <input className="form-control" type="text" name="name" value={selectedPet ? selectedPet.name: ""} onChange={handleChange}/>
-            <br/>
-            <label>Tipo mascota</label>
-            <input className="form-control" type="text" name="type" value={selectedPet ? selectedPet.type: ""} onChange={handleChange}/>
-            <br/>
-            <label>Raza mascota</label>
-            <input className="form-control" type="text" name="breed" value={selectedPet ? selectedPet.breed: ""} onChange={handleChange}/>
-            <br/>
-            <label>Fecha de nacimiento:</label>
-            <input className="form-control" type="text" name="birthday" value={selectedPet ? selectedPet.birthday: ""} onChange={handleChange}/>
-            <br/>
-            <label>Nombre propietario</label>
-            <input className="form-control" type="text" name="ownerName" value={selectedPet ? selectedPet.ownerName: ""} onChange={handleChange}/>
-            <br/>
-            <label>Telefono</label>
-            <input className="form-control" type="text" name="telephone" value={selectedPet ? selectedPet.telephone: ""} onChange={handleChange}/>
-            <br/>
-            <label>Direccion</label>
-            <input className="form-control" type="text" name="direction" value={selectedPet ? selectedPet.direction: ""} onChange={handleChange}/>
-            <br/>
-            <label>Email</label>
-            <input className="form-control" type="email" name="email" value={selectedPet ? selectedPet.email: ""} onChange={handleChange}/>
-            <br/>
+            <input type="text" className="form-control mb-2" placeholder="Nombre de la mascota" name="name" value={selectedPet ? selectedPet.name: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Tipo" name="type" value={selectedPet ? selectedPet.type: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Raza" name="breed" value={selectedPet ? selectedPet.breed: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Fecha de nacimiento" name="birthday" value={selectedPet ? selectedPet.birthday: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Nombre propietario" name="ownerName" value={selectedPet ? selectedPet.ownerName: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Telefono" name="telephone" value={selectedPet ? selectedPet.telephone: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Direccion" name="direction" value={selectedPet ? selectedPet.direction: ""} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Email" name="email" value={selectedPet ? selectedPet.email: ""} onChange={handleChange}/>
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success" onClick={()=>addPet()}>
+          <button className="btn btn-success btn-block" onClick={()=>addPet()}>
            Insertar
           </button>
-          <button className="btn btn-danger"
+          <button className="btn btn-danger btn-block"
                   onClick={() => setModalAdd(false)}        
           >
             Cerrar
@@ -221,39 +206,22 @@ function App() {
           </div>
         </ModalHeader>
         <ModalBody>
-          <div className="form-group">
-
-            <label>Nombre mascota</label>
-            <input className="form-control" type="text" name="name" value={selectedPet && selectedPet.name} onChange={handleChange}/>
-            <br/>
-            <label>Tipo mascota</label>
-            <input className="form-control" type="text" name="type" value={selectedPet && selectedPet.type} onChange={handleChange}/>
-            <br/>
-            <label>Raza mascota</label>
-            <input className="form-control" type="text" name="breed" value={selectedPet && selectedPet.breed} onChange={handleChange}/>
-            <br/>
-            <label>Fecha de nacimiento:</label>
-            <input className="form-control" type="text" name="birthday" value={selectedPet && selectedPet.birthday} onChange={handleChange}/>
-            <br/>
-            <label>Nombre propietario</label>
-            <input className="form-control" type="text" name="ownerName" value={selectedPet && selectedPet.ownerName} onChange={handleChange}/>
-            <br/>
-            <label>Telefono</label>
-            <input className="form-control" type="text" name="telephone" value={selectedPet && selectedPet.telephone} onChange={handleChange}/>
-            <br/>
-            <label>Direccion</label>
-            <input className="form-control" type="text" name="direction" value={selectedPet && selectedPet.direction} onChange={handleChange}/>
-            <br/>
-            <label>Email</label>
-            <input className="form-control" type="email" name="email" value={selectedPet && selectedPet.email} onChange={handleChange}/>
-            <br/>
+          <div className="form-group" >
+            <input type="text" className="form-control mb-2" placeholder="Nombre de la mascota" name="name" value={selectedPet && selectedPet.name} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Tipo" name="type" value={selectedPet && selectedPet.type} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Raza" name="breed" value={selectedPet && selectedPet.breed} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Fecha de nacimiento" name="birthday" value={selectedPet && selectedPet.birthday} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Nombre propietario" name="ownerName" value={selectedPet && selectedPet.ownerName} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Telefono" name="telephone" value={selectedPet && selectedPet.telephone} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Direccion" name="direction" value={selectedPet && selectedPet.direction} onChange={handleChange}/>
+            <input type="text" className="form-control mb-2" placeholder="Email" name="email" value={selectedPet && selectedPet.email} onChange={handleChange}/>
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success" onClick={()=>editPet()}>
+          <button className="btn btn-success btn-block" onClick={()=>editPet()}>
             Actualizar
           </button>
-          <button className="btn btn-danger"
+          <button className="btn btn-danger btn-block"
                   onClick={() => setModalEdit(false)}        
           >
             Cerrar
@@ -264,18 +232,20 @@ function App() {
       <Modal isOpen={modalDelete}>
         <ModalBody>
           <div>
-            <h3>Esta seguro que desea eliminar la mascota? {selectedPet && selectedPet.name}</h3>
+            <h3>Esta seguro que desea eliminar la mascota?</h3>
+            <br/>
+            <h3>{selectedPet && selectedPet.name}</h3>
           </div>
         </ModalBody>
         <ModalFooter>
           <button 
-          className="btn btn-danger"
+          className="btn btn-danger btn-block"
           onClick={()=>deletePet()}
           >
             SI
           </button>
           <button 
-          className="btn btn-secondary"
+          className="btn btn-secondary btn-block"
           onClick={()=>setModalDelete(false)}
           >
             NO
