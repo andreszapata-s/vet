@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' 
-import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { addDocument, getCollection, updateDocument, deleteDocument } from './actions';
 import './Modal.css'
 
 function App() {
-//hasta este punto bien
   const pet = [
     {
       id: "",
@@ -36,28 +34,15 @@ function App() {
     })()
   },[])
 
-  //Used for save the pet selected after we can delete or edit with this data
   const [ selectedPet, setSelectedPet] = useState({
-    id: "",
-    name: "",
-    type: "",
-    breed: "",
-    birthday: "",
-    ownerName: "",
-    telephone: "",
-    direction: "",
-    email : ""
+pet
   })
 
-  //Used for select the pet and send to selectedPet
   const selectPet = (pet, edit) =>{
     setSelectedPet(pet)
     edit==="edit" ? setModalEdit(true) : setModalDelete(true)
   }
 
-  //Se necesita una funcion que capture lo que este escribiendo el usuario
-  //En cada uno de los inputs
-  //Se asigna al estado lo que el usuario esta escribiendo en base a nombre del input 
   const handleChange=(e)=>{
     const {name, value}=e.target
     setSelectedPet((prevState)=>({
@@ -113,14 +98,16 @@ function App() {
     if(!selectedPet){
       alert("Favor llenar el formulario")
     }
-    let insertValue = selectedPet
 
     const result = await addDocument("pets",selectedPet)
     if(!result.statusResponse){
       setError(result.error)
       return
     }
-    setPets([...pets,{id:result.data.id, insertValue}])
+    
+    setPets([...pets,{id:result.data.id, name: selectedPet.name, type: selectedPet.type, breed: selectedPet.breed,
+            birthday: selectedPet.birthday, ownerName:selectedPet.ownerName, telephone: selectedPet.telephone, 
+            direction: selectedPet.direction, email: selectedPet.email}])
     setModalAdd(false)
   }
 
