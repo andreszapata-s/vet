@@ -93,19 +93,22 @@ function App() {
     setModalAdd(true)
   }
 
-  const addPet = () =>{
+  const addPet = async() =>{
+
     let insertValue = selectedPet
     //insertValue.id = shortid.generate()
-    let newPets = pets
+    //let newPets = pets
     
 
-    const result = addDocument("pets",selectedPet)
+    const result = await addDocument("pets",selectedPet)
     if(!result.statusResponse){
       setError(result.error)
       return
     }
-    newPets.push(insertValue)
-    setPets(newPets)
+    //newPets.push({id:result.data.id, insertValue})
+    
+    setPets([...pets,{id:result.data.id, insertValue}])
+    console.log(pets)
     setModalAdd(false)
 
   }
