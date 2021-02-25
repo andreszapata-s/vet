@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { addDocument, getCollection, updateDocument } from './actions';
+import { addDocument, getCollection, updateDocument, deleteDocument } from './actions';
 
 function App() {
 //hasta este punto bien
@@ -91,7 +91,13 @@ function App() {
     setModalEdit(false)
   }
 
-  const deletePet= () =>{
+  const deletePet= async() =>{
+    const result = await deleteDocument("pets",selectedPet.id)
+
+    if(!result.statusResponse){
+      setError(result.error)
+      return
+    }
     setPets(pets.filter(pet => pet.id!==selectedPet.id))
     setModalDelete(false)
   }
