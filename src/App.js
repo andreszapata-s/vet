@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import shortid from 'shortid'
 import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { addDocument, getCollection } from './actions';
+import { addDocument, getCollection, updateDocument } from './actions';
 
 function App() {
 //hasta este punto bien
@@ -65,8 +65,16 @@ function App() {
     }))
   }
 
-  const editPet = () =>{
-    var newPets = pets
+  const editPet = async() =>{
+    let newPets = pets
+
+    const result = await updateDocument("pets",selectedPet.id,selectedPet)
+
+    if(!result.statusResponse){
+      setError(result.error)
+      return
+    }
+
     newPets.map( (pet) => {
       if(pet.id === selectedPet.id){
         pet.name=selectedPet.name
